@@ -21,13 +21,13 @@ int main() {
             Employee temp;
             puts("姓名: ");
             scanf("%s", &temp.name);
-            fprintf("%s\n", temp.name);
+            fprintf(in, "%s\n", temp.name);
             puts("電話: ");
             scanf("%s", &temp.phone);
-            fprintf("%s\n", temp.phone);
+            fprintf(in, "%s\n", temp.phone);
             puts("Email: ");
             scanf("%s", &temp.email);
-            fprintf("%s\n", temp.email);
+            fprintf(in, "%s\n", temp.email);
             break;
         case 'l':
             break;
