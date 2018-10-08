@@ -4,6 +4,7 @@
 #include "employee.h"
 
 int main() {
+    FILE* in = fopen("address_book.txt", "a");
     char op = 0;
 
     while (1) {
@@ -17,6 +18,16 @@ int main() {
 
         switch (op) {
         case 'i':
+            Employee temp;
+            puts("姓名: ");
+            scanf("%s", &temp.name);
+            fprintf("%s\n", temp.name);
+            puts("電話: ");
+            scanf("%s", &temp.phone);
+            fprintf("%s\n", temp.phone);
+            puts("Email: ");
+            scanf("%s", &temp.email);
+            fprintf("%s\n", temp.email);
             break;
         case 'l':
             break;
