@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "employee.h"
+typedef struct _Employee {
+    char name[20];
+    char phone[11];
+    char email[80];
+} Employee;
 
 int main() {
     FILE* in = fopen("address_book.txt", "a");
