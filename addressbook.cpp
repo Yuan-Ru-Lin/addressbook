@@ -54,7 +54,7 @@ int main() {
                 myAddressbook.clear();
                 break;
         }
-        system("clear");
+        if (op != 'l') system("clear");
     }
 
     return 0;
@@ -63,13 +63,14 @@ int main() {
 Addressbook::Addressbook() { int idToFill = 0; }
 
 void Addressbook::insert() {
-    Employee peopleToInsert = list[idToFill];
+    Employee & peopleToInsert = list[idToFill];
     cout << "姓名: ";
     cin >> peopleToInsert.name;
     cout << "電話: ";
     cin >> peopleToInsert.phone;
     cout << "Email: ";
     cin >> peopleToInsert.email;
+    idToFill++;
 }
 
 void Addressbook::show() {
