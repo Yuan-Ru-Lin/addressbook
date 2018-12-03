@@ -20,7 +20,7 @@ class Addressbook {
     void list();
     void save();
     void read();
-    void quit();
+    void clear();
 }
 
 int main() {
@@ -28,14 +28,14 @@ int main() {
     char op = 0;
     Addressbook myAddressbook(in);
 
-    while (1) {
-        puts("i: 插入");
-        puts("l: 列出");
-        puts("s: 存檔");
-        puts("o: 讀檔");
-        puts("q: 結束");
-        printf("> ");
-        scanf("%s", &op);
+    while (op != 'q') {
+        cout << "i: 插入" << endl;
+        cout << "l: 列出" << endl;
+        cout << "s: 存檔" << endl;
+        cout << "o: 讀檔" << endl;
+        cout << "q: 結束" << endl;
+        cout << "> ";
+        cin >> op;
 
         switch (op) {
             case 'i':
@@ -50,8 +50,8 @@ int main() {
             case 'o':
                 myAddressbook.read();
                 break;
-            case 'q':
-                myAddressbook.quit();
+            case 'c':
+                myAddressbook.clear();
                 break;
         }
         system("clear");
@@ -76,9 +76,19 @@ void Addressbook::insert() {
 }
 
 void Addressbook::list() {
-    for (int i=0; i<idToFill;i++) {
+    for (int i = 0; i < idToFill; i++) {
         cout << "姓名: " << list[i].name << endl;
         cout << "電話: " << list[i].phone << endl;
         cout << "Email: " << list[i].email << endl;
     }
 }
+
+void Addressbook::save() {
+    for (int i = 0; i < idToFill; i++) {
+        fprintf(storage, "%d\n%s\n%s\n%s\n", i + 1, list[i].name, list[i].phone,
+                list[i].email);
+        fflush();
+    }
+}
+
+void Addressbook::clear() { idToFill = 0; }
