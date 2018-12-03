@@ -1,5 +1,6 @@
 #include <cstdio>
-#include <cstdlib>
+#include <iostream>
+
 using namespace std;
 
 typedef struct _Employee {
@@ -17,15 +18,15 @@ class Addressbook {
    public:
     Addressbook();
     void insert();
-    void list();
+    void show();
     void save();
     void read();
     void clear();
-}
+};
 
 int main() {
     char op = 0;
-    Addressbook myAddressbook();
+    Addressbook myAddressbook;
 
     while (op != 'q') {
         cout << "i: 插入" << endl;
@@ -41,7 +42,7 @@ int main() {
                 myAddressbook.insert();
                 break;
             case 'l':
-                myAddressbook.list();
+                myAddressbook.show();
                 break;
             case 's':
                 myAddressbook.save();
@@ -71,7 +72,7 @@ void Addressbook::insert() {
     cin >> peopleToInsert.email;
 }
 
-void Addressbook::list() {
+void Addressbook::show() {
     for (int i = 0; i < idToFill; i++) {
         cout << "姓名: " << list[i].name << endl;
         cout << "電話: " << list[i].phone << endl;
@@ -95,7 +96,8 @@ void Addressbook::read() {
     string nameToAdd;
     string phoneToAdd;
     string emailToAdd;
-    while (fscanf(in, "%d%s%s%s", idToFill, nameToAdd, phoneToAdd, emailToAdd) == 4) {
+    while (fscanf(in, "%d%s%s%s", idToFill, nameToAdd, phoneToAdd,
+                  emailToAdd) == 4) {
         list[idToFill].name = nameToAdd;
         list[idToFill].phone = phoneToAdd;
         list[idToFill].email = emailToAdd;
