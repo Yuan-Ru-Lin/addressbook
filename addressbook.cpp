@@ -83,7 +83,7 @@ void Addressbook::show() {
 
 void Addressbook::save() {
     cin >> storage;
-    FILE* in = fopen(storage.c_str(), "a");
+    FILE* in = fopen(storage.c_str(), "w");
     for (int i = 0; i < idToFill; i++) {
         char nameToRead[20];
         char phoneToRead[20];
