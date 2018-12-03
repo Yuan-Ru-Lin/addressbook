@@ -2,4 +2,5 @@ main.out
 address_book.txt
 Addressbook.exe
 addressbook.out
+addressbook.out.dSYM
 .vscode
