@@ -66,7 +66,19 @@ Addressbook::Addressbook(FILE* in) {
 }
 
 void Addressbook::insert() {
+    Employee peopleToInsert = list[idToFill];
     cout << "姓名: ";
+    cin >> peopleToInsert.name;
     cout << "電話: ";
+    cin >> peopleToInsert.phone;
     cout << "Email: ";
+    cin >> peopleToInsert.email;
+}
+
+void Addressbook::list() {
+    for (int i=0; i<idToFill;i++) {
+        cout << "姓名: " << list[i].name << endl;
+        cout << "電話: " << list[i].phone << endl;
+        cout << "Email: " << list[i].email << endl;
+    }
 }
