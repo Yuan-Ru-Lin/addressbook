@@ -82,26 +82,33 @@ void Addressbook::show() {
 
 void Addressbook::save() {
     cin >> storage;
-    FILE* in = fopen(storage, "a");
+    FILE* in = fopen(storage.c_str(), "a");
     for (int i = 0; i < idToFill; i++) {
-        fprintf(in, "%d\n%s\n%s\n%s\n", i + 1, list[i].name, list[i].phone,
-                list[i].email);
+        char nameToRead[20];
+        char phoneToRead[20];
+        char emailToRead[100];
+        strcpy(nameToRead, list[i].name.c_str());
+        strcpy(phoneToRead, list[i].phone.c_str());
+        strcpy(emailToRead, list[i].email.c_str());
+        fprintf(in, "%d\n%s\n%s\n%s\n", i + 1, nameToRead, phoneToRead,
+                emailToRead);
     }
-    fflush();
+    fclose(in);
 }
 
 void Addressbook::read() {
     cin >> storage;
-    FILE* in = fopen(storage, "r");
-    string nameToAdd;
-    string phoneToAdd;
-    string emailToAdd;
-    while (fscanf(in, "%d%s%s%s", idToFill, nameToAdd, phoneToAdd,
+    FILE* in = fopen(storage.c_str(), "r");
+    char nameToAdd[20];
+    char phoneToAdd[20];
+    char emailToAdd[100];
+    while (fscanf(in, "%d%s%s%s", &idToFill, nameToAdd, phoneToAdd,
                   emailToAdd) == 4) {
         list[idToFill].name = nameToAdd;
         list[idToFill].phone = phoneToAdd;
         list[idToFill].email = emailToAdd;
     }
+    fclose(in);
 }
 
 void Addressbook::clear() { idToFill = 0; }
