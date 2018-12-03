@@ -3,15 +3,15 @@
 using namespace std;
 
 typedef struct _Employee {
-    char name[20];
-    char phone[11];
-    char email[80];
+    string name;
+    string phone;
+    string email;
 } Employee;
 
 class Addressbook {
    private:
     Employee list[50];
-    FILE* storage;
+    string storage;
     int idToFill;
 
    public:
@@ -24,9 +24,8 @@ class Addressbook {
 }
 
 int main() {
-    FILE* in = fopen("address_book.txt", "a");
     char op = 0;
-    Addressbook myAddressbook(in);
+    Addressbook myAddressbook();
 
     while (op != 'q') {
         cout << "i: 插入" << endl;
@@ -60,10 +59,7 @@ int main() {
     return 0;
 }
 
-Addressbook::Addressbook(FILE* in) {
-    storage = in;
-    int idToFill = 0;
-}
+Addressbook::Addressbook() { int idToFill = 0; }
 
 void Addressbook::insert() {
     Employee peopleToInsert = list[idToFill];
@@ -84,10 +80,25 @@ void Addressbook::list() {
 }
 
 void Addressbook::save() {
+    cin >> storage;
+    FILE* in = fopen(storage, "a");
     for (int i = 0; i < idToFill; i++) {
-        fprintf(storage, "%d\n%s\n%s\n%s\n", i + 1, list[i].name, list[i].phone,
+        fprintf(in, "%d\n%s\n%s\n%s\n", i + 1, list[i].name, list[i].phone,
                 list[i].email);
-        fflush();
+    }
+    fflush();
+}
+
+void Addressbook::read() {
+    cin >> storage;
+    FILE* in = fopen(storage, "r");
+    string nameToAdd;
+    string phoneToAdd;
+    string emailToAdd;
+    while (fscanf(in, "%d%s%s%s", idToFill, nameToAdd, phoneToAdd, emailToAdd) == 4) {
+        list[idToFill].name = nameToAdd;
+        list[idToFill].phone = phoneToAdd;
+        list[idToFill].email = emailToAdd;
     }
 }
 
