@@ -1,5 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
+using namespace std;
 
 typedef struct _Employee {
     char name[20];
@@ -7,15 +8,25 @@ typedef struct _Employee {
     char email[80];
 } Employee;
 
-void insert();
-void list();
-void save();
-void read();
-void quit();
+class Addressbook {
+   private:
+    Employee list[50];
+    FILE* storage;
+    int idToFill;
+
+   public:
+    Addressbook();
+    void insert();
+    void list();
+    void save();
+    void read();
+    void quit();
+}
 
 int main() {
     FILE* in = fopen("address_book.txt", "a");
     char op = 0;
+    Addressbook myAddressbook(in);
 
     while (1) {
         puts("i: 插入");
@@ -28,19 +39,19 @@ int main() {
 
         switch (op) {
             case 'i':
-                insert();
+                myAddressbook.insert();
                 break;
             case 'l':
-                list();
+                myAddressbook.list();
                 break;
             case 's':
-                save();
+                myAddressbook.save();
                 break;
             case 'o':
-                read();
+                myAddressbook.read();
                 break;
             case 'q':
-                quit();
+                myAddressbook.quit();
                 break;
         }
         system("clear");
@@ -49,15 +60,13 @@ int main() {
     return 0;
 }
 
-void insert() {
-    Employee temp;
-    puts("姓名: ");
-    scanf("%s", &temp.name);
-    fprintf(in, "%s\n", temp.name);
-    puts("電話: ");
-    scanf("%s", &temp.phone);
-    fprintf(in, "%s\n", temp.phone);
-    puts("Email: ");
-    scanf("%s", &temp.email);
-    fprintf(in, "%s\n", temp.email);
+Addressbook::Addressbook(FILE* in) {
+    storage = in;
+    int idToFill = 0;
+}
+
+void Addressbook::insert() {
+    cout << "姓名: ";
+    cout << "電話: ";
+    cout << "Email: ";
 }
