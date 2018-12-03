@@ -4,9 +4,9 @@
 using namespace std;
 
 typedef struct _Employee {
-    string name;
-    string phone;
-    string email;
+    char name[20];
+    char phone[11];
+    char email[20];
 } Employee;
 
 class Addressbook {
@@ -63,7 +63,7 @@ int main() {
 Addressbook::Addressbook() { int idToFill = 0; }
 
 void Addressbook::insert() {
-    Employee & peopleToInsert = list[idToFill];
+    Employee& peopleToInsert = list[idToFill];
     cout << "姓名: ";
     cin >> peopleToInsert.name;
     cout << "電話: ";
@@ -88,11 +88,10 @@ void Addressbook::save() {
         char nameToRead[20];
         char phoneToRead[20];
         char emailToRead[100];
-        strcpy(nameToRead, list[i].name.c_str());
-        strcpy(phoneToRead, list[i].phone.c_str());
-        strcpy(emailToRead, list[i].email.c_str());
-        fprintf(in, "%d\n%s\n%s\n%s\n", i + 1, nameToRead, phoneToRead,
-                emailToRead);
+        strcpy(nameToRead, list[i].name);
+        strcpy(phoneToRead, list[i].phone);
+        strcpy(emailToRead, list[i].email);
+        fprintf(in, "%s\n%s\n%s\n", nameToRead, phoneToRead, emailToRead);
     }
     fclose(in);
 }
@@ -100,16 +99,25 @@ void Addressbook::save() {
 void Addressbook::read() {
     cin >> storage;
     FILE* in = fopen(storage.c_str(), "r");
+    idToFill = 0;
     char nameToAdd[20];
     char phoneToAdd[20];
     char emailToAdd[100];
-    while (fscanf(in, "%d%s%s%s", &idToFill, nameToAdd, phoneToAdd,
-                  emailToAdd) == 4) {
-        list[idToFill].name = nameToAdd;
-        list[idToFill].phone = phoneToAdd;
-        list[idToFill].email = emailToAdd;
+    while (fscanf(in, "%s%s%s", nameToAdd, phoneToAdd, emailToAdd) == 3) {
+        strcpy(list[idToFill].name, nameToAdd);
+        strcpy(list[idToFill].phone, phoneToAdd);
+        strcpy(list[idToFill].email, emailToAdd);
+        idToFill++;
     }
     fclose(in);
 }
 
-void Addressbook::clear() { idToFill = 0; }
+void Addressbook::clear() {
+    for (int i = 0; i < idToFill; i++) {
+        list[i].name[0] = '\0';
+        list[i].phone[0] = '\0';
+        list[i].email[0] = '\0';
+    }
+    storage = "";
+    idToFill = 0;
+}
