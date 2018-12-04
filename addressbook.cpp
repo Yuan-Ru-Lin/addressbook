@@ -1,5 +1,5 @@
-#include <cstdio>
 #include <array>
+#include <fstream>
 #include <iostream>
 
 using std::cout;
@@ -87,27 +87,19 @@ void Addressbook::show() {
 
 void Addressbook::save() {
     cin >> storage;
-    FILE* in = fopen(storage.c_str(), "w");
+    std::fstream in(storage, std::ios::out);
     for (int i = 0; i < idToFill; i++) {
-        fprintf(in, "%s\n%s\n%s\n", list[i].name.c_str(), list[i].phone.c_str(), list[i].email.c_str());
+        in << list[i].name << "\n" << list[i].phone << "\n" << list[i].email << "\n";
     }
-    fclose(in);
 }
 
 void Addressbook::read() {
     cin >> storage;
-    FILE* in = fopen(storage.c_str(), "r");
+    std::fstream in(storage, std::ios::in);
     idToFill = 0;
-    char nameToAdd[20];
-    char phoneToAdd[20];
-    char emailToAdd[100];
-    while (fscanf(in, "%s%s%s", nameToAdd, phoneToAdd, emailToAdd) == 3) {
-        list[idToFill].name = nameToAdd;
-        list[idToFill].phone = phoneToAdd;
-        list[idToFill].email = emailToAdd;
+    while (in >> list[idToFill].name >> list[idToFill].phone >> list[idToFill].email) {
         idToFill++;
     }
-    fclose(in);
 }
 
 void Addressbook::clear() {
