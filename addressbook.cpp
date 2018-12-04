@@ -1,4 +1,4 @@
-#include <array>
+#include <vector>
 #include <fstream>
 #include <iostream>
 
@@ -15,12 +15,10 @@ struct Employee {
 
 class Addressbook {
    private:
-    std::array<Employee, 50> list;
-    string storage;
-    int idToFill;
+    std::vector<Employee> list;
 
    public:
-    Addressbook();
+    Addressbook() = default ;
     void insert();
     void show();
     void save();
@@ -64,50 +62,48 @@ int main() {
     return 0;
 }
 
-Addressbook::Addressbook() { int idToFill = 0; }
-
 void Addressbook::insert() {
-    Employee& peopleToInsert = list[idToFill];
+    Employee peopleToInsert;
     cout << "姓名: ";
     cin >> peopleToInsert.name;
     cout << "電話: ";
     cin >> peopleToInsert.phone;
     cout << "Email: ";
     cin >> peopleToInsert.email;
-    idToFill++;
+    list.push_back(peopleToInsert);
 }
 
 void Addressbook::show() {
-    for (int i = 0; i < idToFill; i++) {
-        cout << "姓名: " << list[i].name << endl;
-        cout << "電話: " << list[i].phone << endl;
-        cout << "Email: " << list[i].email << endl;
+    for (Employee & employee : list) {
+        cout << "姓名: " << employee.name << endl;
+        cout << "電話: " << employee.phone << endl;
+        cout << "Email: " << employee.email << endl;
     }
 }
 
 void Addressbook::save() {
-    cin >> storage;
-    std::fstream in(storage, std::ios::out);
-    for (int i = 0; i < idToFill; i++) {
-        in << list[i].name << "\n" << list[i].phone << "\n" << list[i].email << "\n";
+    std::string savefile;
+    std::cin >> savefile;
+    std::fstream in{savefile, std::ios::out};
+    for (Employee & employee : list) {
+        in << employee.name << "\n"
+           << employee.phone << "\n"
+           << employee.email << "\n";
     }
 }
 
 void Addressbook::read() {
-    cin >> storage;
-    std::fstream in(storage, std::ios::in);
-    idToFill = 0;
-    while (in >> list[idToFill].name >> list[idToFill].phone >> list[idToFill].email) {
-        idToFill++;
+    std::string restorefile;
+    cin >> restorefile;
+    std::fstream in{restorefile, std::ios::in};
+    list.clear();
+
+    Employee new_employee;
+    while (in >> new_employee.name >> new_employee.phone >> new_employee.email) {
+        list.push_back(new_employee);
     }
 }
 
 void Addressbook::clear() {
-    for (int i = 0; i < idToFill; i++) {
-        list[i].name = "";
-        list[i].phone = "";
-        list[i].email = "";
-    }
-    storage = "";
-    idToFill = 0;
+    list.clear();
 }
