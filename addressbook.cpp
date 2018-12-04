@@ -7,11 +7,11 @@ using std::cin;
 using std::endl;
 using std::string;
 
-typedef struct _Employee {
+struct Employee {
     std::string name;
     std::string phone;
     std::string email;
-} Employee;
+};
 
 class Addressbook {
    private:
