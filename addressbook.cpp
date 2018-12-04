@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <string.h>
 #include <iostream>
 
 using std::cout;
@@ -32,12 +33,7 @@ int main() {
     Addressbook myAddressbook;
 
     while (op != 'q') {
-        cout << "i: 插入" << endl;
-        cout << "l: 列出" << endl;
-        cout << "s: 存檔" << endl;
-        cout << "o: 讀檔" << endl;
-        cout << "q: 結束" << endl;
-        cout << "> ";
+        // cout << endl;
         cin >> op;
 
         switch (op) {
@@ -57,7 +53,6 @@ int main() {
                 myAddressbook.clear();
                 break;
         }
-        if (op != 'l') system("clear");
     }
 
     return 0;
@@ -67,19 +62,16 @@ Addressbook::Addressbook() { int idToFill = 0; }
 
 void Addressbook::insert() {
     Employee& peopleToInsert = list[idToFill];
-    cout << "姓名: ";
     cin >> peopleToInsert.name;
-    cout << "電話: ";
     cin >> peopleToInsert.phone;
-    cout << "Email: ";
     cin >> peopleToInsert.email;
     idToFill++;
 }
 
 void Addressbook::show() {
     for (int i = 0; i < idToFill; i++) {
-        cout << "姓名: " << list[i].name << endl;
-        cout << "電話: " << list[i].phone << endl;
+        cout << "Name: " << list[i].name << endl;
+        cout << "Phone: " << list[i].phone << endl;
         cout << "Email: " << list[i].email << endl;
     }
 }
