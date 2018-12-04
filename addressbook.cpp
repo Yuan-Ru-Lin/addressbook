@@ -1,7 +1,10 @@
 #include <cstdio>
 #include <iostream>
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
 
 typedef struct _Employee {
     char name[20];
