@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <array>
 #include <iostream>
 
 using std::cout;
@@ -7,14 +8,14 @@ using std::endl;
 using std::string;
 
 typedef struct _Employee {
-    char name[20];
-    char phone[11];
-    char email[20];
+    std::string name;
+    std::string phone;
+    std::string email;
 } Employee;
 
 class Addressbook {
    private:
-    Employee list[50];
+    std::array<Employee, 50> list;
     string storage;
     int idToFill;
 
@@ -88,13 +89,7 @@ void Addressbook::save() {
     cin >> storage;
     FILE* in = fopen(storage.c_str(), "w");
     for (int i = 0; i < idToFill; i++) {
-        char nameToRead[20];
-        char phoneToRead[20];
-        char emailToRead[100];
-        strcpy(nameToRead, list[i].name);
-        strcpy(phoneToRead, list[i].phone);
-        strcpy(emailToRead, list[i].email);
-        fprintf(in, "%s\n%s\n%s\n", nameToRead, phoneToRead, emailToRead);
+        fprintf(in, "%s\n%s\n%s\n", list[i].name.c_str(), list[i].phone.c_str(), list[i].email.c_str());
     }
     fclose(in);
 }
@@ -107,9 +102,9 @@ void Addressbook::read() {
     char phoneToAdd[20];
     char emailToAdd[100];
     while (fscanf(in, "%s%s%s", nameToAdd, phoneToAdd, emailToAdd) == 3) {
-        strcpy(list[idToFill].name, nameToAdd);
-        strcpy(list[idToFill].phone, phoneToAdd);
-        strcpy(list[idToFill].email, emailToAdd);
+        list[idToFill].name = nameToAdd;
+        list[idToFill].phone = phoneToAdd;
+        list[idToFill].email = emailToAdd;
         idToFill++;
     }
     fclose(in);
@@ -117,9 +112,9 @@ void Addressbook::read() {
 
 void Addressbook::clear() {
     for (int i = 0; i < idToFill; i++) {
-        list[i].name[0] = '\0';
-        list[i].phone[0] = '\0';
-        list[i].email[0] = '\0';
+        list[i].name = "";
+        list[i].phone = "";
+        list[i].email = "";
     }
     storage = "";
     idToFill = 0;
