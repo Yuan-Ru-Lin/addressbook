@@ -1,5 +1,5 @@
-#include <cstdio>
-#include <string.h>
+#include <vector>
+#include <fstream>
 #include <iostream>
 
 using std::cout;
@@ -7,20 +7,18 @@ using std::cin;
 using std::endl;
 using std::string;
 
-typedef struct _Employee {
-    char name[20];
-    char phone[11];
-    char email[20];
-} Employee;
+struct Employee {
+    std::string name;
+    std::string phone;
+    std::string email;
+};
 
 class Addressbook {
    private:
-    Employee list[50];
-    string storage;
-    int idToFill;
+    std::vector<Employee> list;
 
    public:
-    Addressbook();
+    Addressbook() = default ;
     void insert();
     void show();
     void save();
@@ -58,61 +56,46 @@ int main() {
     return 0;
 }
 
-Addressbook::Addressbook() { int idToFill = 0; }
-
 void Addressbook::insert() {
-    Employee& peopleToInsert = list[idToFill];
+    Employee peopleToInsert;
+    cout << "姓名: ";
     cin >> peopleToInsert.name;
     cin >> peopleToInsert.phone;
     cin >> peopleToInsert.email;
-    idToFill++;
+    list.push_back(peopleToInsert);
 }
 
 void Addressbook::show() {
-    for (int i = 0; i < idToFill; i++) {
-        cout << "Name: " << list[i].name << endl;
-        cout << "Phone: " << list[i].phone << endl;
-        cout << "Email: " << list[i].email << endl;
+    for (Employee & employee : list) {
+        cout << "姓名: " << employee.name << endl;
+        cout << "電話: " << employee.phone << endl;
+        cout << "Email: " << employee.email << endl;
     }
 }
 
 void Addressbook::save() {
-    cin >> storage;
-    FILE* in = fopen(storage.c_str(), "w");
-    for (int i = 0; i < idToFill; i++) {
-        char nameToRead[20];
-        char phoneToRead[20];
-        char emailToRead[100];
-        strcpy(nameToRead, list[i].name);
-        strcpy(phoneToRead, list[i].phone);
-        strcpy(emailToRead, list[i].email);
-        fprintf(in, "%s\n%s\n%s\n", nameToRead, phoneToRead, emailToRead);
+    std::string savefile;
+    std::cin >> savefile;
+    std::fstream in{savefile, std::ios::out};
+    for (Employee & employee : list) {
+        in << employee.name << "\n"
+           << employee.phone << "\n"
+           << employee.email << "\n";
     }
-    fclose(in);
 }
 
 void Addressbook::read() {
-    cin >> storage;
-    FILE* in = fopen(storage.c_str(), "r");
-    idToFill = 0;
-    char nameToAdd[20];
-    char phoneToAdd[20];
-    char emailToAdd[100];
-    while (fscanf(in, "%s%s%s", nameToAdd, phoneToAdd, emailToAdd) == 3) {
-        strcpy(list[idToFill].name, nameToAdd);
-        strcpy(list[idToFill].phone, phoneToAdd);
-        strcpy(list[idToFill].email, emailToAdd);
-        idToFill++;
+    std::string restorefile;
+    cin >> restorefile;
+    std::fstream in{restorefile, std::ios::in};
+    list.clear();
+
+    Employee new_employee;
+    while (in >> new_employee.name >> new_employee.phone >> new_employee.email) {
+        list.push_back(new_employee);
     }
-    fclose(in);
 }
 
 void Addressbook::clear() {
-    for (int i = 0; i < idToFill; i++) {
-        list[i].name[0] = '\0';
-        list[i].phone[0] = '\0';
-        list[i].email[0] = '\0';
-    }
-    storage = "";
-    idToFill = 0;
+    list.clear();
 }
